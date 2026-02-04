@@ -35,6 +35,7 @@ defmodule Controlflow do
       403 -> "Forbidden"
       404 -> "Not Found"
       500 -> "Internal Server Error"
+      n when is_integer(n) and n > 501 -> :error
       _ -> "Unknown Error"
     end
   end
