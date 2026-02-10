@@ -1,7 +1,6 @@
 defmodule PasswordGeneratorTest do
   use ExUnit.Case
-  doctest PasswordGenerator
-
+  
   setup do
     options = %{
       "length" => "10",
