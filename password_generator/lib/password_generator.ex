@@ -118,6 +118,10 @@ defmodule PasswordGenerator do
     <<Enum.random(?a..?z)>>
   end
 
+  defp get(:uppercase) do
+    <<Enum.random(?A..?Z)>>
+  end
+
   defp included_options(options) do
     Enum.filter(options, fn {_key, value} ->
       value |> String.trim() |> String.to_existing_atom()

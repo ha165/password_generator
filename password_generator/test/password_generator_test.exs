@@ -77,7 +77,7 @@ defmodule PasswordGeneratorTest do
     options = %{"length" => "5", "numbers" => "true", "invalid" => "true"}
     assert {:error, _error} = PasswordGenerator.generate(options)
   end
-  test "returns string uppercase", %{options_type:options} do
+  test "returns string uppercase", %{options_type: options} do
     options_with_uppercase = %{
       "length" => "10",
       "numbers" => "false",
