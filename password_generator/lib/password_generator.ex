@@ -58,5 +58,30 @@ defp validate_length_is_integer(true,options) do
   option_values = Map.values(options_without_length)
   value = 
   options_values|> Enum.all?(fn x -> String.to_atom(x) |> is_boolean() end)
+  validate_options_values_are_boolean(value,length,options_without_length)
+end
+defp validate_options_values_are_boolean(false,_length,_options) do
+  {:error,"options values should be boolean"}
+end
+defp validate_options_values_are_boolean(true,length,options) do
+  options = included_options(options)
+  invalid_options? = options |> Enum.any?(&(&1 not in @allowed_options))
+  validate_options(invalid_options?,length,options)
+end
+
+defp validate_options(true,_length,_options) do
+  {:error,"invalid options allowed numbers, symbols and uppercase"}
+end
+defp validate_options(false,length,options) do
+  generate_strings(length,options)
+end
+defp generatate_strings(length,options) do
+  options = [:lowercase_letter | options]
+end
+
+defp included_options(options) do
+  Enum.filter(options,fn {key,value} ->
+    value |> String.trim() |> String.to_existing_atom() end )
+  |> Enum.map(fn {key,_value} -> String.to_atom(key) end)
 end
 end
