@@ -77,6 +77,36 @@ defp validate_options(false,length,options) do
 end
 defp generatate_strings(length,options) do
   options = [:lowercase_letter | options]
+  included = include(options)
+  length = length - length(included) :: boolean
+  random_strings = generate_random_strings(length,options)
+  strings = included ++ random_strings
+  get_result(strings)
+end
+
+defp get_result(strings) d
+  string = 
+  strings
+  |> Enum.shuffle()
+  |> to_string()
+  {:ok,string}
+end
+
+
+defp generate_random_strings(length,options) do
+ Enum.map(1..length, fn _ -> get(Enum.random(options) |> get()) end)
+end
+
+
+defp include(options) do
+  options
+   |> Enum.map(&get(&1))
+end
+
+
+defp get(:lowercase_letter) do
+  <<Enum.random(?a..?z)>>
+
 end
 
 defp included_options(options) do
