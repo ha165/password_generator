@@ -36,9 +36,9 @@ defmodule PasswordGenerator do
       "aB3$d"
   """
 
-  @spec generate(options :: map()) :: {:ok, String.t()} | {:error, bitstring()}
+  @spec generate(options :: map()) :: {:ok, bitstring()} | {:error, bitstring()}
   def generate(options) do
-    length = Map.get(options, "length")
+    length = Map.has_key?(options, "length")
     validate_length(length, options)
   end
 
@@ -59,7 +59,7 @@ defmodule PasswordGenerator do
 
   defp validate_length_is_integer(true, options) do
     length = options["length"] |> String.trim() |> String.to_integer()
-    options_without_length = Map.delete(options, ["length"])
+    options_without_length = Map.delete(options, "length")
     options_values = Map.values(options_without_length)
 
     value =
@@ -105,7 +105,8 @@ defmodule PasswordGenerator do
   end
 
   defp generate_random_strings(length, options) do
-    Enum.map(1..length, fn _ -> get(Enum.random(options) |> get()) end)
+    Enum.map(1..length, fn _ ->
+      Enum.random(options) |> get() end)
   end
 
   defp include(options) do

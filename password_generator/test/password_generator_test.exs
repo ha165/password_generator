@@ -49,6 +49,7 @@ defmodule PasswordGeneratorTest do
     options_type: options
   } do
     length_option = %{"length" => "5"}
+    {:ok, result} = PasswordGenerator.generate(length_option)
     assert String.contains?(result, options.lowercase)
 
     refute String.contains?(result, options.uppercase)
