@@ -1,6 +1,7 @@
 defmodule PasswordGeneratorTest do
   use ExUnit.Case
   
+
   setup do
     options = %{
       "length" => "10",
@@ -16,44 +17,43 @@ defmodule PasswordGeneratorTest do
       symbols: String.split("!@#$%^&*()_+-=[]{}|;:,.<>?/~", "", trim: true)
     }
 
-    {:ok, result} = PasswordGenerator.generate_password(options)
+    {:ok, result} = PasswordGenerator.generate(options)
 
     %{
-      options: options,
       options_type: options_type,
       result: result
     }
   end
 
   test "returns a string", %{result: result} do
-    assert is_binary(result)
+    assert is_bitstring(result)
   end
 
   test "returns error when no length is given" do
     options = %{"invalid" => "false"}
-    assert {:error, _error} = PasswordGenerator.generate_password(options)
+    assert {:error, _error} = PasswordGenerator.generate(options)
   end
 
   test "returns error when length is not a number" do
     options = %{"length" => "ab"}
-    assert {:error, _error} = PasswordGenerator.generate_password(options)
+    assert {:error, _error} = PasswordGenerator.generate(options)
   end
 
   test "length of returned string is the option provided" do
     options = %{"length" => "5"}
-    {:ok, result} = PasswordGenerator.generate_password(options)
-    assert String.length(result) == 5
+    {:ok, result} = PasswordGenerator.generate(options)
+    assert 5 = String.length(result)
   end
 
   test "returns only lowercase letters by default", %{
-    result: result,
-    options_type: options_type
+    options_type: options
   } do
-    assert String.contains?(result, options_type.lowercase)
+    length_option = %{"length" => "5"}
+    assert String.contains?(result, options.lowercase)
 
-    refute String.contains?(result, options_type.uppercase)
-    refute String.contains?(result, options_type.numbers)
-    refute String.contains?(result, options_type.symbols)
+    refute String.contains?(result, options.uppercase)
+    refute String.contains?(result, options.numbers)
+    refute String.contains?(result, options.symbols)
   end
 
   test "returns error when option values are not booleans" do
@@ -64,16 +64,16 @@ defmodule PasswordGeneratorTest do
       "uppercase" => "0"
     }
 
-    assert {:error, _error} = PasswordGenerator.generate_password(options)
+    assert {:error, _error} = PasswordGenerator.generate(options)
   end
 
   test "returns error when options are not allowed" do
     options = %{"length" => "5", "invalid" => "true"}
-    assert {:error, _error} = PasswordGenerator.generate_password(options)
+    assert {:error, _error} = PasswordGenerator.generate(options)
   end
 
   test "returns error when one option is not allowed" do
     options = %{"length" => "5", "numbers" => "true", "invalid" => "true"}
-    assert {:error, _error} = PasswordGenerator.generate_password(options)
+    assert {:error, _error} = PasswordGenerator.generate(options)
   end
 end

@@ -46,8 +46,8 @@ defmodule PasswordGenerator do
     {:error, "please provide a length"}
   end
 
-  defp validate_length(true, _options) do
-    numbers = Enum.map(0..9, &Integer.to_string(&1))
+  defp validate_length(true, options) do
+    numbers = Enum.map(0..9, & Integer.to_string(&1))
     length = options["length"]
     length = String.contains?(length, numbers)
     validate_length_is_integer(length, options)
@@ -86,7 +86,7 @@ defmodule PasswordGenerator do
     generate_strings(length, options)
   end
 
-  defp generatate_strings(length, options) do
+  defp generate_strings(length, options) do
     options = [:lowercase_letter | options]
     included = include(options)
     length = length - length(included)
@@ -118,7 +118,7 @@ defmodule PasswordGenerator do
   end
 
   defp included_options(options) do
-    Enum.filter(options, fn {key, value} ->
+    Enum.filter(options, fn {_key, value} ->
       value |> String.trim() |> String.to_existing_atom()
     end)
     |> Enum.map(fn {key, _value} -> String.to_atom(key) end)
