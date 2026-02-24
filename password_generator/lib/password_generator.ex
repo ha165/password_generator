@@ -111,7 +111,7 @@ defmodule PasswordGenerator do
 
   defp include(options) do
     options
-    |> Enum.map(&get(&1))
+    |> Enum.map(&get(&1))  
   end
 
   defp get(:lowercase_letter) do
